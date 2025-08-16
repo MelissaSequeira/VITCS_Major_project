@@ -1,0 +1,74 @@
+# --------------------
+# Python
+# --------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.log
+*.sqlite3
+
+# --------------------
+# Virtual Environment
+# --------------------
+venv/
+.env/
+ENV/
+.venv/
+
+# --------------------
+# Project Folders (large files)
+# --------------------
+dataset/
+Input Videos/
+models/
+uploads/
+static/uploads/
+instance/
+*.db
+*.sqlite
+
+# --------------------
+# Jupyter / Colab
+# --------------------
+.ipynb_checkpoints/
+*.ipynb
+
+# --------------------
+# System Files
+# --------------------
+.DS_Store
+Thumbs.db
+
+# --------------------
+# IDE / Editor
+# --------------------
+.vscode/
+.idea/
+*.swp
+
+# --------------------
+# Model Files & Checkpoints
+# --------------------
+*.pt
+*.onnx
+*.pb
+*.h5
+*.tflite
+*.weights
+
+# --------------------
+# Logs / Results
+# --------------------
+runs/
+results/
+output/
+*.out
+*.err
+
+# --------------------
+# Cache
+# --------------------
+.cache/
+.pytest_cache/

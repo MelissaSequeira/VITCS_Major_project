@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Violation Detection</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            /* background-color: black; */
+            background: rgb(0,0,0);
+            background: linear-gradient(310deg, rgba(0,0,0,1) 0%, rgb(52, 52, 53) 35%, rgb(133, 133, 134) 100%);
+            /* padding-top: 5px; */
+            display: flex;
+            height: 100vh;
+        }
+        .container2{
+            background-color:#c7c8cca4;
+            padding: 30px;
+            border-radius: 15px;
+        }
+        
+        .lead{
+            font-weight: 500;
+        }
+        /* Center the content */
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Custom styles for the file uploaded message */
+        .fileUploadedMsg {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            padding-top: 20px;
+            padding-left: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        /* Custom styles for the uploaded image */
+        .uploadedImage {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+
+        /* Custom styles for the upload form */
+        .upload-form {
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #7352c1;
+            color: #fff;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+        }
+         .btn:hover, .btn:active {
+            background-color: #8d63ef;
+            color: #fff;
+            transform: translateY(-5px);
+        }
+        .live-btn {
+            background-color: #df3030;
+            color: #fff;
+            padding: 10px;
+            border-radius: 15px;
+            border: none;
+            transition: all 0.4s ease;
+        }
+         .live-btn:hover, .live-btn:active {
+            background-color: #e34646;
+            color: #fff;
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container center-content">
+        <div class="container2">
+            <h1 class="text-center mb-4 text-black">Violation Detection</h1>
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <div class="mb-4">
+                        <label class="lead text-black">Do you want to perform Violation Detection on Live Feed?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="detectionChoice" id="liveYes" value="yes" onclick="toggleForms()">
+                            <label class="form-check-label" for="liveYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="detectionChoice" id="liveNo" value="no" onclick="toggleForms()">
+                            <label class="form-check-label" for="liveNo">No</label>
+                        </div>
+                    </div>
+                    
+                    <!-- Live Feed Form -->
+                    <div id="liveForm" style="display:none;">
+                        <form action="/violation_detection_rt" method="post" enctype="multipart/form-data" class="upload-form">
+                            <button type="submit" class="live-btn btn-start upload-btn">Start Detection</button>
+                        </form>
+                    </div>
+                    
+                    <!-- Video Upload Form -->
+                    <div id="uploadForm" style="display:none;">
+                        <p class="lead text-black">Upload a video for Violation Detection:</p>
+                        <form action="/violation_detection" method="post" enctype="multipart/form-data" class="upload-form">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="videoInput" name="video" accept="video/*" required onchange="updateLabel(this, 'videoLabel')">
+                                <label class="custom-file-label" for="videoInput" id="videoLabel">Choose Video</label>
+                            </div>
+                            <button type="submit" class="btn btn-start upload-btn mt-3 float-right">Start Detection</button>
+                        </form>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateLabel(input, labelId) {
+            var label = document.getElementById(labelId);
+            var fileName = input.files[0].name;
+            label.innerHTML = fileName;
+        }
+
+        function toggleForms() {
+            const isLive = document.getElementById("liveYes").checked;
+            document.getElementById("liveForm").style.display = isLive ? "block" : "none";
+            document.getElementById("uploadForm").style.display = !isLive ? "block" : "none";
+        }
+
+        // Persist the selected radio button after page reload (Back button)
+        window.onload = function () {
+            const liveYes = document.getElementById("liveYes");
+            const liveNo = document.getElementById("liveNo");
+
+            if (localStorage.getItem("violationDetectionChoice") === "yes") {
+                liveYes.checked = true;
+            } else if (localStorage.getItem("violationDetectionChoice") === "no") {
+                liveNo.checked = true;
+            }
+
+            toggleForms(); // Show the correct form
+
+            // Save choice on selection
+            liveYes.addEventListener("click", function () {
+                localStorage.setItem("violationDetectionChoice", "yes");
+            });
+
+            liveNo.addEventListener("click", function () {
+                localStorage.setItem("violationDetectionChoice", "no");
+            });
+        };
+    </script>
+
+</body>
+</html>

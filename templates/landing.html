@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url("{{ url_for('static', filename='image.png') }}") no-repeat center center;
+            background-size: cover;
+        }
+
+        .overlay {
+            position: relative;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.69);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .logo-left, .logo-right {
+            position: absolute;
+            top: 10px;
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            z-index: 2;
+        }
+
+        .logo-left {
+            left: 10px;
+        }
+
+        .logo-right {
+            right: 10px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: black;
+            margin-bottom: 30px;
+            z-index: 3;
+        }
+
+        .btn-start {
+            background-color: #7352c1;
+            color: #000000;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            transition: background-color 0.3s;
+            z-index: 3;
+        }
+
+        .btn-start:hover,
+        .btn-start:active {
+            background-color: #8d63ef;
+            color: #000000;
+        }
+
+        .developers {
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .developers h2 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .developers ul {
+            list-style: none;
+            padding: 0;
+            font-size: 20px;
+        }
+
+        .developers ul li {
+            margin: 10px 0;
+        }
+
+        .developers {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #ffffff, #f3f3f3);
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.developers h2 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #4a4a4a;
+    font-weight: bold;
+}
+
+.developer-card {
+    border: none;
+    border-radius: 20px;
+    background-color: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.developer-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.developer-card .card-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #7352c1;
+}
+
+.developer-card .card-text {
+    font-size: 16px;
+    color: #555;
+}   
+    </style>
+</head>
+<body>
+    <!-- Logos -->
+    <img src="{{ url_for('static', filename='fcrit.webp') }}" alt="College Logo" class="logo-left">
+    <img src="{{ url_for('static', filename='iiser.png') }}" alt="Organization Logo" class="logo-right">
+
+    <!-- Main Landing Section -->
+    <div class="overlay">
+        <h1>Vehicle Identification and Traffic Compliance System</h1>
+        <a href="{{ url_for('home') }}" class="btn btn-start btn-lg">Start Detection</a>
+    </div>
+
+    <!-- Developers Section -->
+    <div class="developers">
+        <h2>Developed By</h2>
+        <div class="container">
+            <div class="row justify-content-center">
+                <!-- Developer 1 -->
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card shadow developer-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Ananth Balvalli</h5>
+                            <p class="card-text">Frontend Designer and Integration.</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Developer 2 -->
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card shadow developer-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Aashish Bathe</h5>
+                            <p class="card-text">Number Plate Recognition.</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Developer 3 -->
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card shadow developer-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Shruti Dalvi</h5>
+                            <p class="card-text">Preprocessing techniques.</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Developer 4 -->
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card shadow developer-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Prashansa Erande</h5>
+                            <p class="card-text">Violation Detection.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2>Guided By</h2>
+        <div class="container">
+            <div class="row justify-content-center">
+                <!-- Developer 1 -->
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card shadow developer-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Dr. Jyoti More</h5>
+                            <p class="card-text">Internal Guide, FCRIT.</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Developer 2 -->
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card shadow developer-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Dr. Shashikant Dugad</h5>
+                            <p class="card-text">External Guide, IISER Mohali.</p>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+</body>
+</html>

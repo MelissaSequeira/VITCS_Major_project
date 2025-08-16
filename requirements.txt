@@ -1,0 +1,13 @@
+Flask
+opencv-python
+numpy
+pandas
+ultralytics
+roboflow
+flask_cors
+ultralytics 
+lap 
+scipy
+deep_sort_realtime
+paddlepaddle
+paddleocr

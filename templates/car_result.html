@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 90%;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .top-section {
+            display: flex;
+            height: 60%;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .video-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        video {
+            width: 90%;
+            max-height: 100%;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+        margin-bottom: 10px;
+        font-size: 20px;
+        text-align: center;
+        }
+
+        .bottom-section {
+            height: 40%;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        p {
+            margin-top: 10px;
+            font-size: 30px;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Top Section: Input & Processed Videos -->
+        <div class="top-section">
+            <div class="video-container">
+                <h2>Input Video</h2>
+                <video controls>
+                    <source src="{{ input_video_url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="video-container">
+                <h2>Output Video</h2>
+                <video controls>
+                    <source src="{{ processed_video_url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>        
+
+        <!-- Bottom Section: Results -->
+        <div class="bottom-section">
+            <h1>Final Results:</h1>
+            <p>
+                {% if results %}
+                    {% for line in results %}
+                        {{ line }}<br>
+                    {% endfor %}
+                {% else %}
+                    No data to be shown.
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

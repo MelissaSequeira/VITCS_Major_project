@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: rgb(0,0,0);
+            background: linear-gradient(310deg, rgba(0,0,0,1) 0%, rgb(52, 52, 53) 35%, rgb(133, 133, 134) 100%);
+            /* background-color: black; */
+            padding-top: 25px;
+            display: flex;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+        }
+        .option-card {
+            margin: 20px;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .option-card:hover {
+            transform: translateY(-5px);
+        }
+        .option-card img {
+            height: 300px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        .option-card .card-body {
+            padding: 20px;
+        }
+        .option-card h5 {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .option-card p {
+            color: #6c757d;
+        }
+        .option-card .btn {
+            background-color:  #7352c1;
+            color: #fff;
+            border-radius: 15px;
+        }
+        .option-card .btn:hover, .option-card .btn:focus {
+            background-color: #8d63ef;
+            color: #fff;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card option-card">
+                    <img src="{{ url_for('static', filename='cctv.jpeg') }}" class="card-img-top" alt="Number Plate Detection">
+                    <div class="card-body">
+                        <h5 class="card-title">Number Plate Detection</h5>
+                        <p class="card-text">Click below to detect number plates in a video.</p>
+                        <a href="{{ url_for('number_plate_detection') }}" class="btn btn-start">Start</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card option-card">
+                    <img src="{{ url_for('static', filename='violation.jpg') }}" class="card-img-top" alt="Traffic Violation Detection">
+                    <div class="card-body">
+                        <h5 class="card-title">Traffic Violation Detection</h5>
+                        <p class="card-text">Click below to detect traffic violation in a video.</p>
+                        <a href="{{ url_for('violation_detection') }}" class="btn btn-start">Start</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
