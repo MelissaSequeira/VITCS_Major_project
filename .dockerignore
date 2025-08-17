@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.mp4
+*.mov
+*.avi
+dataset/
+finalimgs/
+handimages/

@@ -184,39 +184,54 @@ def violation_detection_rt():
         return render_template('waiting.html', video_folder=video_folder)
     return render_template('violation.html')
 
+from flask import send_from_directory
+
+@app.route('/uploads/<path:filename>')
+def serve_upload(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+
 @app.route('/identification', methods=['GET'])
 def identification():
-    actual_main_folder = "/workspace/Mp/static/uploads/"
     video_folder = request.args.get('video_folder')
     video_name = request.args.get('video_name')
-    actual_vid_folder = video_folder.split("/")[-1]
-    actual_main_folder += actual_vid_folder
+
     if not video_folder or not video_name:
         return "Error: Missing video folder or file name."
-    # Original paths
-    processed_video_path = actual_main_folder + "/processed_video.mp4"
+
+    actual_vid_folder = os.path.basename(video_folder)
+    actual_main_folder = os.path.join(app.config['UPLOAD_FOLDER'], actual_vid_folder)
+
+    # Paths
+    processed_video_path = os.path.join(actual_main_folder, "processed_video.mp4")
     compressed_video_filename = "processed_compressed_" + video_name
-    compressed_video_path = actual_main_folder + "/" + compressed_video_filename
+    compressed_video_path = os.path.join(actual_main_folder, compressed_video_filename)
+
+    # FFmpeg full path
+    ffmpeg_path = r"D:\ffmpeg-2025-08-14-git-cdbb5f1b93-essentials_build\ffmpeg\bin\ffmpeg.exe"
+
+    # Compress if not exists
     if not os.path.exists(compressed_video_path):
-        ffmpeg_cmd = [
-            "ffmpeg", "-i", processed_video_path,
-            "-vcodec", "libx265", "-crf", "28", compressed_video_path
-        ]
-        result = subprocess.run(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        if result.returncode != 0:
-            print("FFmpeg error:", result.stderr.decode())
+        if not os.path.exists(processed_video_path):
+            print(f"Error: processed video not found at {processed_video_path}")
         else:
-            print("Compression succeeded!")
-    # Read results.txt
+            ffmpeg_cmd = [ffmpeg_path, "-i", processed_video_path, "-vcodec", "libx265", "-crf", "28", compressed_video_path]
+            result = subprocess.run(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            if result.returncode != 0:
+                print("FFmpeg error:", result.stderr.decode())
+            else:
+                print("Compression succeeded!")
+
+    # Read results
     results_file = os.path.join(video_folder, "op", "results.txt")
     results_data = []
     if os.path.exists(results_file):
         with open(results_file, "r", encoding="utf-8") as file:
             results_data = file.readlines()
 
-    input_video_url = url_for('static', filename=f"uploads/{actual_vid_folder}/{video_name}")
-    processed_video_url = url_for('static', filename=f"uploads/{actual_vid_folder}/{compressed_video_filename}")
-    print(processed_video_url)
+    input_video_url = url_for('serve_upload', filename=f"{actual_vid_folder}/{video_name}")
+    processed_video_url = url_for('serve_upload', filename=f"{actual_vid_folder}/{compressed_video_filename}")
+
     return render_template(
         'car_result.html',
         input_video_url=input_video_url,
@@ -224,26 +239,31 @@ def identification():
         results=results_data
     )
 
+
 @app.route('/identification_rt', methods=['GET'])
 def identification_rt():
-    video_folder = request.args.get('video_folder').split("/")[-1]
-    actual_main_folder = f"/workspace/Mp/static/uploads/{video_folder}"
-    # Original paths
+    video_folder = os.path.basename(request.args.get('video_folder'))
+    actual_main_folder = os.path.join(app.config['UPLOAD_FOLDER'], video_folder)
+
     processed_video_path = os.path.join(actual_main_folder, "processed_video.mp4")
     compressed_video_path = os.path.join(actual_main_folder, f"processed_compressed_{video_folder}.mp4")
-    # Compress processed video using FFmpeg if not already compressed
+
+    # FFmpeg full path
+    ffmpeg_path = r"D:\ffmpeg-2025-08-14-git-cdbb5f1b93-essentials_build\ffmpeg\bin\ffmpeg.exe"
+
     if not os.path.exists(compressed_video_path):
-        print("COMPRESSING!")
-        ffmpeg_cmd = [
-            "ffmpeg", "-i", processed_video_path,
-            "-vcodec", "libx265", "-crf", "28", compressed_video_path
-        ]
-        result = subprocess.run(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        if result.returncode != 0:
-            print("FFmpeg error:", result.stderr.decode())
+        if not os.path.exists(processed_video_path):
+            print(f"Error: processed video not found at {processed_video_path}")
         else:
-            print("Compression succeeded!")
-    # Read results.txt
+            print("Compressing processed video...")
+            ffmpeg_cmd = [ffmpeg_path, "-i", processed_video_path, "-vcodec", "libx265", "-crf", "28", compressed_video_path]
+            result = subprocess.run(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            if result.returncode != 0:
+                print("FFmpeg error:", result.stderr.decode())
+            else:
+                print("Compression succeeded!")
+
+    # Read results
     results_file = os.path.join(video_folder, "op", "results.txt")
     results_data = []
     if os.path.exists(results_file):
@@ -251,7 +271,7 @@ def identification_rt():
             results_data = file.readlines()
 
     compressed_vid_url = url_for('static', filename=f"uploads/{video_folder}/processed_compressed_{video_folder}.mp4")
-    print(compressed_vid_url)
+
     return render_template(
         'car_result_rt.html',
         processed_video_url=compressed_vid_url,
